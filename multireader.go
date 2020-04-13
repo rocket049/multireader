@@ -50,8 +50,8 @@ func (s *RandMultiReader) linkReader(r io.ReadCloser) error {
 		p := make([]byte, 512)
 		n, err := r.Read(p)
 		if err != nil {
-			atomic.AddInt32(&s.num, -1)
-			if atomic.LoadInt32(&s.num) == 0 {
+			ret := atomic.AddInt32(&s.num, -1)
+			if ret == 0 {
 				close(s.channel)
 			}
 			return err
